@@ -1,9 +1,13 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttercourse/shared/bloc_observer.dart';
 
 import 'layout/home_layout.dart';
 
 
 void main() {
+  Bloc.observer = MyBlocObserver();
+
   runApp(const MyApp());
 }
 
@@ -27,7 +31,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home:    const HomeLayOut(),
+      home:  HomeLayOut(),
       debugShowCheckedModeBanner: false,
 
     );

@@ -1,94 +1,103 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttercourse/modules/counter/cupit/cupit.dart';
+import 'package:fluttercourse/modules/counter/cupit/states.dart';
 
-class CounterScreen extends StatefulWidget {
-   const CounterScreen({Key? key}) : super(key: key);
+   class CounterScreen extends StatelessWidget
+   {
 
 
-  @override
-  State<CounterScreen> createState() => _CounterScreenState();
+   int counter = 1;
 
-}
+  CounterScreen({Key? key}) : super(key: key);
+   @override
 
-class _CounterScreenState extends State<CounterScreen>
-{
-  int counter = 1;
-  @override
-  void initState()
-  {
-    super.initState();
+   @override
+   Widget build(BuildContext context) {
+     return BlocProvider(
+       create: (BuildContext context) => CounterCupit(),
+       child: BlocConsumer<CounterCupit,CounterStates>(
+         listener: (BuildContext context,CounterStates state)
+         {
+
+           if (state is CounterPlusState)
+           {
+           if (kDebugMode) {
+             print('PlusState ${state.counter}');
+           }
+           }
+           if (state is CounterMinusState)
+           {
+             if (kDebugMode) {
+               print('MinusState ${state.counter}');
+             }
+           }
+         },
+         builder: (BuildContext context,CounterStates state){
+           return Scaffold(
+             appBar: AppBar(
+               centerTitle: true,
+               backgroundColor: Colors.purple,
+               title: const Text('Counter',
+                 style: TextStyle(
+                     color: Colors.white,
+                     fontSize: 30,
+                     fontWeight: FontWeight.bold
+                 ),
+               ),
+             ),
+             body: Center(
+               child: Row(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                   children: [
+                     TextButton(onPressed:
+                         ()
+                     {
+                       CounterCupit.get(context).plus();
+                     }
+                         , child:const Text("PLUS",
+                           style: TextStyle(
+                             color: Colors.purple,
+                             fontSize: 35,
+                             fontWeight: FontWeight.bold,
+                           ),
+                         )),
+                     const SizedBox(
+                       width: 20,
+                     ),
+                     Text('${CounterCupit.get(context).counter}',
+                       style: const TextStyle(
+                         color: Colors.black,
+                         fontSize: 35,
+                         fontWeight: FontWeight.bold,
+                       ),
+                     ),
+                     const SizedBox(
+                       width: 20,
+                     ),
+                     TextButton(onPressed: ()
+                     {
+                       CounterCupit.get(context).minus();
+                     }
+                         , child:const Text("MINUS",
+                           style: TextStyle(
+                             color: Colors.purple,
+                             fontSize: 35,
+                             fontWeight: FontWeight.bold,
+                           ),
+                         )),
+
+                   ]
+               ),
+             ),
+           );
+         },
+       ),
+     );
+   }
+
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.purple,
-        title: const Text('Counter',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 30,
-          fontWeight: FontWeight.bold
-        ),
-        ),
-      ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(onPressed:
-                ()
-            {
-              setState(()
-              {
-                counter++;
-                if (kDebugMode) {
-                  print(counter);
-                }
-              });
-            }
-                , child:const Text("PLUS",
-            style: TextStyle(
-              color: Colors.purple,
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-            ),
-            )),
-            const SizedBox(
-              width: 20,
-            ),
-             Text('$counter',
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-            ),
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            TextButton(onPressed: ()
-            {
-              setState(()
-              {
-                counter--;
-                if (kDebugMode) {
-                  print(counter);
-                }
-              });
-            }
-                , child:const Text("MINUS",
-              style: TextStyle(
-                color: Colors.purple,
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
-              ),
-            )),
 
-          ]
-        ),
-      ),
-    );
-  }
-}
+

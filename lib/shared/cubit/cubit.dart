@@ -1,9 +1,11 @@
+import 'package:course/shared/cubit/states.dart';
+import 'package:course/shared/network/local/cache_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttercourse/shared/cubit/states.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../layout/news_app/cubit/states.dart';
 import '../../modules/archived_tasks/archived_tasks_screen.dart';
 import '../../modules/done_tasks/done_tasks_screen.dart';
 import '../../modules/new_tasks/new_tasks_screen.dart';
@@ -71,7 +73,7 @@ class AppCubit extends Cubit<AppStates>
   }) async {
     await createDatabase();
     return await database.transaction((txn) => txn.rawInsert(
-      ' INSERT INTO tasks (id,title,date,time,status) VALUES(5,"$title", "$date", "$time","new")',
+      ' INSERT INTO tasks (title,date,time,status) VALUES("$title", "$date", "$time","new")',
     ).then((value) {
       if (kDebugMode) {
         print(' $value inserted successfully');
@@ -93,11 +95,13 @@ class AppCubit extends Cubit<AppStates>
      database.rawQuery('SELECT * FROM tasks').then((value) {
 
        value.forEach((element) {
-        if(element['status'] == 'new')
+        if(element['status'] == 'new') {
           newTasks.add(element);
-        else if (element['status'] == 'done')
+        } else if (element['status'] == 'done') {
           doneTasks.add(element);
-        else archivedTasks.add(element);
+        } else {
+          archivedTasks.add(element);
+        }
        });
        emit(AppGetDatabaseState());
      });
@@ -112,8 +116,8 @@ class AppCubit extends Cubit<AppStates>
   async
   {
     database.rawUpdate(
-        'UPDATE tasks SET status = ?,  WHERE id = ?',
-        ['$status', id]).then((value) {
+        'UPDATE tasks SET status = ?  WHERE id = ?',
+        [status, id]).then((value) {
           getDataFromDatabase(database);
           emit(AppUpdateDatabaseState());
     });
@@ -141,5 +145,26 @@ class AppCubit extends Cubit<AppStates>
     isBottomSheetShown = isShow;
     fabIcon = icon;
     emit(AppChangeBottomSheetState());
+  }
+  bool isDark = false;
+  void changeAppMode({bool? fromShared})
+  {
+    if(fromShared != null)
+    {
+      isDark = fromShared;
+      emit(AppChangeModeState());
+
+
+    }
+    else
+    {
+      isDark = !isDark;
+      CacheHelper.putBoolen(key: 'isDark', value: isDark).then((value)
+      {
+        emit(AppChangeModeState());
+
+      });
+    }
+
   }
 }

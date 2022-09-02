@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttercourse/modules/counter/cupit/cupit.dart';
-import 'package:fluttercourse/modules/counter/cupit/states.dart';
+
+import 'cupit/cupit.dart';
+import 'cupit/states.dart';
 
    class CounterScreen extends StatelessWidget
    {

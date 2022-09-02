@@ -1,12 +1,12 @@
+
+import 'package:course/shared/cubit/cubit.dart';
+import 'package:course/shared/cubit/states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttercourse/shared/cubit/cubit.dart';
-import 'package:fluttercourse/shared/cubit/states.dart';
 import 'package:intl/intl.dart';
 
 class HomeLayOut extends StatelessWidget {
   var scaffoldkey = GlobalKey<ScaffoldState>();
-
   var titlecontroller = TextEditingController();
   var timecontroller = TextEditingController();
   var formkey = GlobalKey<FormState>();

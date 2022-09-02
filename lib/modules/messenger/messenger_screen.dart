@@ -370,7 +370,7 @@ class MessengerScreen extends StatelessWidget {
                 children: [
                   const Expanded(
                     child: Text(
-                      "hello my name is khaled waled hellak mahmoud hello my name is khaled waled hellak mahmoud my name is khaled waled hellak mahmoud",
+                      "hello my name is khaled waled helal mahmoud hello my name is khaled waled helal mahmoud my name is khaled waled helal mahmoud",
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(color: Colors.white),

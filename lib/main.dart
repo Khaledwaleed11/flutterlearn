@@ -1,38 +1,129 @@
+
 import 'package:bloc/bloc.dart';
+import 'package:course/shared/bloc_observer.dart';
+import 'package:course/shared/cubit/states.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttercourse/shared/bloc_observer.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 
-import 'layout/home_layout.dart';
+import 'layout/news_app/cubit/cubit.dart';
+import 'layout/news_app/news_layout.dart';
+import 'shared/cubit/cubit.dart';
+import 'shared/network/local/cache_helper.dart';
+import 'shared/network/remote/dio_helper.dart';
 
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
+  DioHelper.init();
+  await CacheHelper.init();
+  bool isDark=CacheHelper.getBoolen(key:'isDark')??false;
 
-  runApp(const MyApp());
+  runApp( MyApp(isDark));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final bool isDark;
+  const MyApp(this.isDark);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home:  HomeLayOut(),
-      debugShowCheckedModeBanner: false,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (BuildContext context) =>  NewsCubit()..getBusiness()..getSports()..getScience(),
+        ),
+        BlocProvider( create: (BuildContext context) => AppCubit()..changeAppMode(
+          fromShared: isDark,)
+        )
+      ],
+
+        child: BlocConsumer<AppCubit, AppStates>(
+          listener: (context, state) {},
+          builder: (context, state)
+          {
+            return  MaterialApp(
+              title: 'Flutter Demo',
+              theme: ThemeData(
+                primarySwatch:Colors.deepOrange ,
+                floatingActionButtonTheme: const FloatingActionButtonThemeData(
+                  backgroundColor: Colors.deepOrange,
+                ),
+                appBarTheme: const AppBarTheme(
+                  titleSpacing: 20,
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarColor: Colors.white,
+                    statusBarIconBrightness: Brightness.dark,
+                  ),
+                  titleTextStyle: TextStyle(
+                      color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
+                  iconTheme: IconThemeData(
+                    color:Colors.black,
+                  ),
+                ),
+                bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+                  type: BottomNavigationBarType.fixed,
+                  selectedItemColor: Colors.deepOrange,
+                  elevation: 20,
+                  backgroundColor:  Colors.white,
+                  unselectedItemColor: Colors.grey,
+                ),
+                scaffoldBackgroundColor: Colors.white,
+                textTheme: const TextTheme(
+                  bodyText1: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                ),
+
+              ),
+              darkTheme: ThemeData(
+                scaffoldBackgroundColor: HexColor('333739'),
+                primarySwatch:Colors.deepOrange ,
+                floatingActionButtonTheme: const FloatingActionButtonThemeData(
+                  backgroundColor: Colors.deepOrange,
+                ),
+                appBarTheme:  AppBarTheme(
+                  titleSpacing: 20,
+                  backgroundColor:  HexColor('333739'),
+                  elevation: 0,
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarColor:  HexColor('333739'),
+                    statusBarIconBrightness: Brightness.light,
+                  ),
+                  titleTextStyle: const TextStyle(
+                      color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
+                  iconTheme: const IconThemeData(
+                    color:Colors.white,
+                  ),
+                ),
+                bottomNavigationBarTheme:  BottomNavigationBarThemeData(
+                  type: BottomNavigationBarType.fixed,
+                  selectedItemColor: Colors.deepOrange,
+                  elevation: 20,
+                  backgroundColor:  HexColor('333739'),
+                  unselectedItemColor: Colors.grey,
+                ),
+                textTheme: const TextTheme(
+                  bodyText1: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+
+              ),
+              themeMode: AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light ,
+
+              home:  NewsLayout(),
+              debugShowCheckedModeBanner: false,
+            );
+          },
+        ),
 
     );
   }

@@ -18,7 +18,7 @@ class BusinessScreen extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
               itemBuilder: (context,index) => buildArticleItem(NewsCubit.get(context).business[index] , context),
               // separatorBuilder: (context,index) => ,
-              itemCount: 10):const Center(child: CircularProgressIndicator(),);
+              itemCount: NewsCubit.get(context).business.length):const Center(child: CircularProgressIndicator(),);
         },
         listener: (context, state) {}
     );

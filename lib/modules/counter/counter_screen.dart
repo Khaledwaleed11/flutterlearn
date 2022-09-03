@@ -37,6 +37,7 @@ import 'cupit/states.dart';
          },
          builder: (BuildContext context,CounterStates state){
            return Scaffold(
+             backgroundColor: Colors.white,
              appBar: AppBar(
                centerTitle: true,
                backgroundColor: Colors.purple,

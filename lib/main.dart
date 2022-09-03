@@ -1,5 +1,6 @@
 
 import 'package:bloc/bloc.dart';
+import 'package:course/layout/%20my_apps/my_apps_screen.dart';
 import 'package:course/shared/bloc_observer.dart';
 import 'package:course/shared/cubit/states.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +120,7 @@ class MyApp extends StatelessWidget {
               ),
               themeMode: AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light ,
 
-              home:  NewsLayout(),
+              home:  MyApps(),
               debugShowCheckedModeBanner: false,
             );
           },

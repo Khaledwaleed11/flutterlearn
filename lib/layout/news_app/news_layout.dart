@@ -1,11 +1,11 @@
 import 'package:course/layout/news_app/cubit/cubit.dart';
 import 'package:course/layout/news_app/cubit/states.dart';
+import 'package:course/modules/news_app/search/search_screen.dart';
 import 'package:course/shared/components/components.dart';
 import 'package:course/shared/cubit/cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../modules/search/search_screen.dart';
 
 class NewsLayout extends StatelessWidget {
   const NewsLayout({Key? key}) : super(key: key);

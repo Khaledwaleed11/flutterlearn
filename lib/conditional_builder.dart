@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 
-class ConditionalBuilder extends StatefulWidget {
+  class ConditionalBuilder extends StatefulWidget {
 bool condition;
-Widget builder;
-Widget fallBack;
+dynamic builder;
+dynamic fallBack;
 
 ConditionalBuilder({super.key,  required this.condition, required this.builder, required this.fallBack});
 
@@ -15,7 +15,7 @@ ConditionalBuilder({super.key,  required this.condition, required this.builder, 
 
 class _ConditionalBuilderState extends State<ConditionalBuilder> {
   bool condition;
-  Widget builder;
+  Widget  builder;
   Widget fallBack;
 
   _ConditionalBuilderState(this.condition, this.builder, this.fallBack);

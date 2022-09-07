@@ -2,7 +2,7 @@
 
 import 'package:course/layout/news_app/cubit/cubit.dart';
 import 'package:course/layout/news_app/cubit/states.dart';
-import 'package:course/modules/web_view/web_view_screen.dart';
+import 'package:course/modules/news_app/web_view/web_view_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -135,5 +135,13 @@ Future navigateTo(context ,widget ) =>  Navigator.push(
     MaterialPageRoute(
       builder: (context) => widget,
     ),);
+Future navigateAndFinish(context ,widget ) =>  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(
+      builder: (context) => widget,
+    ),
+    (Route<dynamic> route) => false,
+);
+
 
 

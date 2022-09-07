@@ -1,4 +1,6 @@
-import 'package:course/modules/counter/cupit/states.dart';
+
+
+import 'package:course/modules/basics_app/counter/cupit/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CounterCupit extends Cubit<CounterStates>

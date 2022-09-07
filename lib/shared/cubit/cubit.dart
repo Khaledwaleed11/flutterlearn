@@ -1,3 +1,6 @@
+import 'package:course/modules/todo_app/archived_tasks/archived_tasks_screen.dart';
+import 'package:course/modules/todo_app/done_tasks/done_tasks_screen.dart';
+import 'package:course/modules/todo_app/new_tasks/new_tasks_screen.dart';
 import 'package:course/shared/cubit/states.dart';
 import 'package:course/shared/network/local/cache_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -6,9 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../layout/news_app/cubit/states.dart';
-import '../../modules/archived_tasks/archived_tasks_screen.dart';
-import '../../modules/done_tasks/done_tasks_screen.dart';
-import '../../modules/new_tasks/new_tasks_screen.dart';
 
 class AppCubit extends Cubit<AppStates>
 {
